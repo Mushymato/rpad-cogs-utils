@@ -23,9 +23,12 @@
 # Voltron - NOT SUPPORTED, UPDATE REQUIRES JP CARD
 # monster_no 9601-9631
 # monster_no_jp/monster_no_us 2601-2631
+#
+# Power Rangers
+# monster_no 14949-14986
+# monster_no_jp/monster_no_us 4949-4986
 
 NA_VOLTRON_IDS = range(2601, 2632)
-
 
 def between(n, bottom, top):
     return n >= bottom and n <= top
@@ -58,6 +61,10 @@ def jp_id_to_na_id(jp_id):
     if between(jp_id, 2601, 2631):
         return None
 
+    # Power Rangers
+    if between(jp_id, 4949, 4986):
+        return None
+
     # Didn't match an exception, same card ID
     return jp_id
 
@@ -81,4 +88,8 @@ def na_id_to_monster_no(na_id):
     if between(na_id, 2601, 2631):
         return adjust(na_id, 2601, 9601)
 
-    raise NotImplementedError('only voltron supported')
+    # Power Rangers
+    if between(na_id, 4949, 4986):
+        return adjust(na_id, 4949, 14949)
+
+    raise NotImplementedError('only voltron/power rangers supported')
