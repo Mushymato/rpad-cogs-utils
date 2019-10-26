@@ -93,4 +93,5 @@ def na_id_to_monster_no(na_id):
     if between(na_id, 4949, 4986):
         return adjust(na_id, 4949, 14949)
 
-    raise NotImplementedError('only voltron/power rangers supported')
+    return None
+    # raise NotImplementedError('only voltron/power rangers supported')

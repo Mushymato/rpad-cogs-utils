@@ -66,13 +66,14 @@ def build_ownable_cross_server_cards(jp_database, na_database) -> List[CrossServ
 
 
 def build_cross_server_cards(jp_database, na_database) -> List[CrossServerCard]:
-    jp_card_ids = [mc.card.card_id for mc in jp_database.cards]
+    all_card_ids = set([mc.card.card_id for mc in jp_database.cards])
+    all_card_ids.update([mc.card.card_id for mc in na_database.cards])
     jp_id_to_card = {mc.card.card_id: mc for mc in jp_database.cards}
     na_id_to_card = {mc.card.card_id: mc for mc in na_database.cards}
 
     # This is the list of cards we could potentially update
     combined_cards = []  # type: List[CrossServerCard]
-    for card_id in jp_card_ids:
+    for card_id in all_card_ids:
         jp_card = jp_id_to_card.get(card_id)
         na_card = na_id_to_card.get(monster_id_mapping.jp_id_to_na_id(card_id), jp_card)
 
@@ -88,6 +89,15 @@ def build_cross_server_cards(jp_database, na_database) -> List[CrossServerCard]:
 # Creates a CrossServerCard if appropriate.
 # If the card cannot be created, provides an error message.
 def make_cross_server_card(jp_card: MergedCard, na_card: MergedCard) -> (CrossServerCard, str):
+    if jp_card is None:
+        # NA exclusive card ID
+        return CrossServerCard(na_card.card.card_id, na_card, na_card), None
+
+    monster_no = monster_id_mapping.na_id_to_monster_no(na_card.card.card_id)
+    if monster_no is not None:
+        # NA exclusive card
+        return CrossServerCard(monster_no, na_card, na_card), None
+
     card_id = jp_card.card.card_id
 
     if '***' in jp_card.card.name or '???' in jp_card.card.name:
