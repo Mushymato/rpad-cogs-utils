@@ -20,7 +20,7 @@
 # monster_no_jp 1049-1058
 # monster_no_us 924-933
 #
-# Voltron - NOT SUPPORTED, UPDATE REQUIRES JP CARD
+# Voltron
 # monster_no 9601-9631
 # monster_no_jp/monster_no_us 2601-2631
 #
@@ -29,6 +29,7 @@
 # monster_no_jp/monster_no_us 4949-4986
 
 NA_VOLTRON_IDS = range(2601, 2632)
+NA_POWERRANGER_IDS = range(4949, 4987)
 
 def between(n, bottom, top):
     return n >= bottom and n <= top
